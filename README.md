@@ -1,89 +1,31 @@
-# Project 3: LCD Game
+# Project 3: Snakey
 ## Introduction
 
-Continuing your effort to help ACME Solutions provide Christmas toys, 
-your task is now to develop a game for the LCD screen.  You should 
-utilize the knowledge you havegained working with the buttons and 
-buzzer.  In addition, a series of libraries have been found to assist
-you in creating your game.
+The company ACME asked for a designed game and I have presented to
+them a version of snake called snakey(fun for the whole family). It follows the same rules as the classic snake game, eat as many dots as you can and grow bigger. If you hit the wall or any part of yourself, the game will end with a loss. Reach 25 points to win.
 
-Students can propose alternate projects that demonstrate
-similar skills.  These proposals must approved by the course
-instructor in writing (e.g. email) at least two weeks before the
-project due date. 
+## Running
+1. Run make
+2. Run make load to install the game on the msp430
 
-## Requirements
-Your game should meet the following minimum criteria:
+## Method Snakey
 
-- dynamically render graphical elements that move
--- including one original algorithmically rendered graphical element 
-- handle colisions properly with other shapes and area boundaries
-- produce sounds triggered by game events
--- in a manner that does not cause the game to pause
-- communicate with the player using text
-- include a state machine written in assembly language
-- respond to user input (from buttons)
+Initiate_Snakey();
+Update_Snakey();
+Growing_Snakey();
+Change_Direction();
+Draw_Snakey();
+Snakey_Self_Hit();
+Snakey_Ball_Hit();
+Snakey_Wall_Hit();
 
-Don't forget to properly document your source code and how to play the game.
+## Method ball
 
-## Grading Criteria
+ballReturn(Vec2* newPos);
 
-Your lab will be graded based on the proficiencies it demonstrates.
-While we appreciate the complexity of an
-arcade quality game, our primary objective is that you demonstrate
-course-relevant skills including
+## Method sound
 
-- relevant development tools such as make and emacs
-- use of timer interrupts to control program timing
-- use of switch interrupts to determine when swiches change
-- modularization into multiple source files (including header files)
-- use of explicit state machines to implement program functionality
-- ability to develop or modify (and of course use) linked data structures in c
-- mature programming
--- readable, appropriate algorithms, modularization, data structures, symbol names etc
-
-Below is an example of a sample "pong" application that would fully satisfy
-requirments.  The graphics would include
-
-- an arena to play in
-- a ball
-- two paddles (using a shape of your own design)
-- a score
-
-And behaviors that include
-
-- the ball moves in 2d, with direction changing when it collides with
-  screen elements
-- a sound plays when a collision occurs
--- without causing the ball's motion to pause
-- scores
- - that advance through multiple rounds of play
- - that the ball either moves in-front-of or behind
-
-## Libraries
-
-Several libraries are provided.  
-They can be installed by the default production of Makefile in the repostiory's 
-root directory, or by a "$make install" in each of their subdirs.
-
-- timerLib: Provides code to configure Timer A to generate watchdog timer interrupts at 250 Hz
-
-- p2SwLib: Provides an interrupt-driven driver for the four switches on the LCD board and a demo program illustrating its intended functionality.
-
-- lcdLib: Provides low-level lcd control primitives, defines several fonts, 
-and a simple demo program that uses them.
-
-- shapeLib: Provides an translatable model for shapes that can be translated 
-and rendered as layers.
-
-- circleLib: Provides a circle model as a vector of demi-chord lengths,
-pre-computed circles as layers with a variety of radii, 
-and a demonstration program that renders a circle.
-
-
-## Demonstration program
-
-- shape-motion-demo: A demonstration program that uses shapeLib to represent
-and render shapes that move.
-
-
+Inititiate_Sound();
+Turn_On_Sound();
+Turn_Off_Sound();
+Sound_Of_Game();

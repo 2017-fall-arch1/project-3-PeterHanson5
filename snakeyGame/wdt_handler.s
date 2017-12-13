@@ -34,6 +34,8 @@ WDT:
 	PUSH	R5
 	PUSH	R4
 	; end of prologue
+        CALL 	#wdt_c_handler
+	; start of epilogue
 	POP	R4
 	POP	R5
 	POP	R6
@@ -48,7 +50,7 @@ WDT:
 	POP	R15
 	cmp	#0, &redrawScreen
 	jz	ball_no_move
-	and	#0xffef, 0(r1)	;
+	and	#0xffef, 0(r1)	
 ball_no_move:
 	RETI
 	.size	WDT, .-WDT

@@ -1,6 +1,6 @@
 #include "ball.h"
 
-Layer ballLayer = {(AbShape *) &circle2, {(screenWidth / 2) + 10, (screenHeight / 2) + 5}, {0,0}, {0,0}, COLOR_YELLOW, 0};
+Layer ballLayer = {(AbShape *) &circle2, {(screenWidth / 2) + 10, (screenHeight / 2) + 5}, {0,0}, {0,0}, COLOR_BLACK, 0};
 
 Ball b = {&ballLayer};
 

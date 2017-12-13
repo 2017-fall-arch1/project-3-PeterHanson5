@@ -8,7 +8,7 @@ AS		= msp430-elf-gcc -mmcu=${CPU} -c
 
 all: snakey.elf
 
-snakey.elf: ${COMMON_OBJECTS} main.o ball.o snakey.o sound.o wdt_handler.o
+snakey.elf: ${COMMON_OBJECTS} main.o ball.o snakey.o sound.o wdt_handler.o 
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd -lShape -lCircle -lp2sw
 
 load: snakey.elf

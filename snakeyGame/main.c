@@ -14,7 +14,9 @@
 #define SW4 BIT3
 #define SWITCHES (SW1 | SW2 | SW3 | SW4)
 
-u_int bgColor = COLOR_BLACK;
+void countTrack(short* counting);
+void scoreTrack(char* scoringStr, short scoring);
+u_int bgColor = COLOR_WHITE;
 char redrawScreen = 1;
 
 char scoring = 0;
@@ -24,13 +26,13 @@ AbRectOutline field = {abRectOutlineGetBounds, abRectOutlineCheck, {(screenWidth
 
 Region fence;
 
-Layer fieldLayer = {(AbShape *) &field, {(screenWidth / 2), (screenHeight / 2)}, {0,0}, {0,0}, COLOR_WHITE, 0};
+Layer fieldLayer = {(AbShape *) &field, {(screenWidth / 2), (screenHeight / 2)}, {0,0}, {0,0}, COLOR_BLACK, 0};
 
 void Updating_Score() {
   scoringStr[0] = 48 + (scoring / 10);
   scoringStr[1] = 48 + (scoring % 10);
-
-  drawString5x7(screenWidth - 32, 0, scoringStr, COLOR_BLUE, COLOR_BLACK);
+  //scoreTrack(scoringStr, scoring);
+  drawString5x7(screenWidth - 32, 0, scoringStr, COLOR_BLACK, COLOR_WHITE);
 }
 
 void Update_Direction() {
@@ -39,7 +41,7 @@ void Update_Direction() {
   char switchesChanged = switches >> 8;
   if (switchesChanged) {
     Turn_On_Sound();
-    Sound_Of_Game(4000);
+    Sound_Of_Game(2000);
     if (!(switchPositions & SW1)) {
       Change_Direction(SW1);
     }
@@ -57,7 +59,7 @@ void Update_Direction() {
 }
 
 void Reset_Snakey() {
-  clearScreen(COLOR_BLACK);
+  clearScreen(COLOR_WHITE);
   Initiate_Snakey();
 
   abShapeGetBounds((AbShape *) &field, &fieldLayer.pos, &fence);
@@ -65,7 +67,7 @@ void Reset_Snakey() {
   layerInit(&fieldLayer);
   layerDraw(&fieldLayer);
 
-  drawString5x7(10,0,"score:", COLOR_BLUE, COLOR_BLACK);
+  drawString5x7(10,0,"scoring:", COLOR_BLACK, COLOR_WHITE);
 
   scoring = 0;
   scoringStr[0] = '0';
@@ -92,7 +94,7 @@ void main() {
 
 void wdt_c_handler() {
   static short counting = 0;
-  static short cycles = 85;
+  static short cycles = 50;
   P1OUT |= GREEN_LED;
 
   if (counting % 10 == 0) {
@@ -102,20 +104,20 @@ void wdt_c_handler() {
     Turn_Off_Sound();
     if (Snakey_Wall_Hit(&fence) || Snakey_Self_Hit()) {
       Turn_On_Sound();
-      Sound_Of_Game(6000);
+      Sound_Of_Game(9000);
       Reset_Snakey();
       cycles = 85;
     }
     else {
       if (Snakey_Ball_Hit()) {
 	Turn_On_Sound();
-	Sound_Of_Game(1500);
+	Sound_Of_Game(2000);
 	scoring++;
 	Updating_Score();
 
 	if (scoring == 25) {
 	  Turn_On_Sound();
-	  Sound_Of_Game(1250);
+	  Sound_Of_Game(3000);
 	  Reset_Snakey();
 	  cycles = 85;
 	}
@@ -138,7 +140,7 @@ void wdt_c_handler() {
     Draw_Snakey();
     counting = 0;
   }
-
+  //countTrack(&counting);
   counting++;
   P1OUT &= ~GREEN_LED;
 }

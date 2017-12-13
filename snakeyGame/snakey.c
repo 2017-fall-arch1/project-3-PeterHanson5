@@ -2,12 +2,12 @@
 
 AbRect segmentShape = {abRectGetBounds, abRectCheck, {2,2}};
 
-Layer tailLayer = {(AbShape *) &segmentShape, {(screenWidth / 2), (screenHeight / 2) + 5}, {0,0}, {0,0}, COLOR_BLACK, 0};
+Layer tailLayer = {(AbShape *) &segmentShape, {(screenWidth / 2), (screenHeight / 2) + 5}, {0,0}, {0,0}, COLOR_WHITE, 0};
 
-Layer headLayer = {(AbShape *) &segmentShape, {(screenWidth / 2), (screenHeight / 2)}, {(screenWidth / 2), (screenHeight / 2)}, {(screenWidth / 2), (screenHeight / 2)}, COLOR_WHITE, &tailLayer};
+Layer headLayer = {(AbShape *) &segmentShape, {(screenWidth / 2), (screenHeight / 2)}, {(screenWidth / 2), (screenHeight / 2)}, {(screenWidth / 2), (screenHeight / 2)}, COLOR_RED, &tailLayer};
 
 Vec2 dir = (Vec2){-1,0};
-Vec2 parts[25];
+Vec2 parts[20];
 
 Snakey s = {&headLayer, &tailLayer, &dir, 0, parts};
 
@@ -18,7 +18,7 @@ void Initiate_Snakey() {
   snakey->headLayer->posNext = (Vec2){(screenWidth / 2), (screenHeight / 2)};
   snakey->tailLayer->pos = (Vec2){(screenWidth / 2), (screenHeight / 2)};
   snakey->size = 0;
-  for (int i = 0; i < 25; i++) {
+  for (int i = 0; i < 20; i++) {
     snakey->parts[i] = snakey->headLayer->pos;
   }
 }
@@ -29,7 +29,7 @@ void Update_Snakey() {
   snakey->headLayer->posNext.axes[0] += 5*snakey->dir->axes[0];
   snakey->headLayer->posNext.axes[1] += 5*snakey->dir->axes[1];
 
-  for (int i = 24; i > 0; i--) {
+  for (int i = 19; i > 0; i--) {
     snakey->parts[i] = snakey->parts[i - 1];
   }
 

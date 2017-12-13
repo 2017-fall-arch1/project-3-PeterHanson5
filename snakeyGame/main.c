@@ -7,6 +7,7 @@
 #include "ball.h"
 #include "sound.h"
 
+//allows the green led and switches to be available
 #define GREEN_LED BIT6
 #define SW1 BIT0
 #define SW2 BIT1
@@ -19,15 +20,18 @@ void scoreTrack(char* scoringStr, short scoring);
 u_int bgColor = COLOR_WHITE;
 char redrawScreen = 1;
 
+//both char's will present the scoring in the game
 char scoring = 0;
 char scoringStr[] = "0000";
 
+//allows the creation of a border wall
 AbRectOutline field = {abRectOutlineGetBounds, abRectOutlineCheck, {(screenWidth / 2) - 10, (screenHeight / 2) - 10}};
 
 Region fence;
 
 Layer fieldLayer = {(AbShape *) &field, {(screenWidth / 2), (screenHeight / 2)}, {0,0}, {0,0}, COLOR_BLACK, 0};
 
+//keeps track of increasing the score by 100 when a dot is eaten
 void Updating_Score() {
   scoringStr[0] = 48 + (scoring / 10);
   scoringStr[1] = 48 + (scoring % 10);
@@ -35,6 +39,7 @@ void Updating_Score() {
   drawString5x7(screenWidth - 32, 0, scoringStr, COLOR_BLACK, COLOR_WHITE);
 }
 
+//keeps track of the direction and switches when buttons are pressed
 void Update_Direction() {
   unsigned int switches = p2sw_read();
   char switchPositions = switches;
@@ -58,6 +63,7 @@ void Update_Direction() {
   }
 }
 
+//will reset the game after victory or defeat
 void Reset_Snakey() {
   clearScreen(COLOR_WHITE);
   Initiate_Snakey();
@@ -75,6 +81,7 @@ void Reset_Snakey() {
   Updating_Score();
 }
 
+//controls the whole game
 void main() {
   P1DIR |= GREEN_LED;
   P1OUT |= GREEN_LED;
@@ -92,6 +99,7 @@ void main() {
   or_sr(0x8);
 }
 
+//wdt_c_handler
 void wdt_c_handler() {
   static short counting = 0;
   static short cycles = 50;
@@ -111,13 +119,13 @@ void wdt_c_handler() {
     else {
       if (Snakey_Ball_Hit()) {
 	Turn_On_Sound();
-	Sound_Of_Game(2000);
+	Sound_Of_Game(2000); //will play if dor is eaten
 	scoring++;
 	Updating_Score();
 
-	if (scoring == 25) {
+	if (scoring == 45) {
 	  Turn_On_Sound();
-	  Sound_Of_Game(3000);
+	  Sound_Of_Game(3000); //will play if game is won
 	  Reset_Snakey();
 	  cycles = 85;
 	}
@@ -128,7 +136,7 @@ void wdt_c_handler() {
 	  ballReturn(&snakey->parts[snakey->size]);
 	}
 
-	if (scoring % 5 == 0) {
+	if (scoring % 3 == 0) { //will speed up the game for challenge
 	  cycles -= 15;
 	}
       }

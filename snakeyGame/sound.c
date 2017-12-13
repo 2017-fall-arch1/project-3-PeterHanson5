@@ -10,14 +10,17 @@ void Initiate_Sound() {
   Turn_On_Sound();
 }
 
+//allows the sound to be played
 void Turn_On_Sound() {
   P2DIR |= BIT6;
 }
 
+//allows the sound to turn off
 void Turn_Off_Sound() {
   P2DIR &= ~BIT6;
 }
 
+//this will tell the system what type of sound
 void Sound_Of_Game(short sound) {
   CCR0 = sound;
   CCR1 = sound >> 1;
